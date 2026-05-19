@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact — Pure AI Studio</title>
+<meta name="description" content="Get in touch with Pure AI Studio about partnerships, research collaborations, services, or careers." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-logo"><span>P</span></span>
+      Pure AI Studio
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="services.html">Services</a>
+      <a href="careers.html">Careers</a>
+      <a href="contact.html">Contact</a>
+      <a class="nav-cta" href="careers.html">Join us</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="hero-grid"></div>
+  <div class="hero-orb o1"></div>
+  <div class="hero-orb o3"></div>
+  <div class="container hero-inner">
+    <div class="eyebrow"><span class="dot"></span> Contact</div>
+    <h1>Let's <span class="gradient-text">talk</span>.</h1>
+    <p class="lead">Whether you're a researcher, a builder, or a team with an interesting problem, we'd love to hear from you.</p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="grid cols-2" style="gap:36px; align-items:start;">
+      <div class="fade-in">
+        <span class="tag">Ways to reach us</span>
+        <h2 style="margin-top:14px">Send us a message</h2>
+        <p>The fastest way to reach us is email. We read everything, and we'll get back to you within a few business days.</p>
+
+        <div class="card" style="margin-top:18px;">
+          <div class="card-icon">✉️</div>
+          <h3>Email</h3>
+          <p><a href="mailto:yaochang_liu@yahoo.com">yaochang_liu@yahoo.com</a></p>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <div class="card-icon">💼</div>
+          <h3>Careers</h3>
+          <p>Looking to join? Visit the <a href="careers.html">Careers page</a> for open roles and our application form.</p>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <div class="card-icon">🌎</div>
+          <h3>Location</h3>
+          <p>San Francisco, CA · Remote-friendly worldwide</p>
+        </div>
+      </div>
+
+      <div class="fade-in">
+        <div class="form">
+          <div id="contact-success" class="success-banner">
+            Your email draft is ready in your default email client. Hit send when you're happy with it.
+          </div>
+
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="cname">Your name</label>
+                <input id="cname" name="name" type="text" placeholder="Jane Doe" required />
+              </div>
+              <div class="field">
+                <label for="cemail">Email</label>
+                <input id="cemail" name="email" type="email" placeholder="jane@example.com" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="ctopic">Topic</label>
+              <select id="ctopic" name="topic" required>
+                <option>General inquiry</option>
+                <option>Partnership / collaboration</option>
+                <option>Services / engagement</option>
+                <option>Research</option>
+                <option>Press</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="cmsg">Message</label>
+              <textarea id="cmsg" name="message" placeholder="Tell us what you're working on…" required></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Send message →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html" style="margin-bottom:16px">
+          <span class="brand-logo"><span>P</span></span>
+          Pure AI Studio
+        </a>
+        <p style="margin-top:14px; max-width:340px;">Engineering intelligent systems and pioneering AI research for the world's hardest problems.</p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="research.html">Research</a></li>
+          <li><a href="services.html">Services</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Join</h4>
+        <ul>
+          <li><a href="careers.html">Open roles</a></li>
+          <li><a href="careers.html#apply">Apply</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="mailto:yaochang_liu@yahoo.com">yaochang_liu@yahoo.com</a></li>
+          <li>San Francisco, CA</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Pure AI Studio. All rights reserved.</span>
+      <span>Built with curiosity.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
