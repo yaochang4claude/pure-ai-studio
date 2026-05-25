@@ -105,7 +105,7 @@ ${coverLetter}
 Best regards,
 ${fullName}`;
 
-      const mailto = `mailto:yaochang_liu@yahoo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const mailto = `mailto:support@pureaistudio.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = mailto;
 
       const banner = document.querySelector('#apply-success');
@@ -133,7 +133,7 @@ Email: ${email}
 Topic: ${topic}
 
 ${message}`;
-      window.location.href = `mailto:yaochang_liu@yahoo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:support@pureaistudio.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       const banner = document.querySelector('#contact-success');
       if (banner) banner.classList.add('show');
     });
