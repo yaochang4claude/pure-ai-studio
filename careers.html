@@ -188,13 +188,13 @@
     <div class="section-head fade-in">
       <span class="tag">Apply</span>
       <h2>Send us your resume</h2>
-      <p>Fill out the form below. When you submit, your default email app will open with the details pre-filled — just attach your resume and hit send. Applications go to <a href="mailto:support@pureaistudio.com">support@pureaistudio.com</a>.</p>
+      <p>Fill out the form below and attach your resume — we'll take it from there. You'll get a confirmation email once your application is in.</p>
     </div>
 
     <div class="form fade-in" style="max-width:760px; margin: 0 auto;">
 
       <div id="apply-success" class="success-banner">
-        Your email draft is ready! Please attach your resume file in your email client before sending.
+        Application submitted! Check your inbox for a confirmation email.
       </div>
 
       <form id="apply-form" novalidate>
@@ -244,22 +244,15 @@
           <label class="file-drop" for="resume">
             <div class="file-icon">📄</div>
             <div>Click to choose your resume — or drag & drop</div>
-            <div class="hint">PDF, DOC, or DOCX</div>
-            <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" />
+            <div class="hint">PDF, DOC, or DOCX — max 3 MB</div>
+            <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required />
             <div class="file-name"></div>
           </label>
-          <div class="hint">After you submit, attach the same file to the email draft that opens.</div>
         </div>
 
         <div class="field">
           <label for="coverLetter">Cover letter / Why Pure AI Studio?</label>
           <textarea id="coverLetter" name="coverLetter" placeholder="Tell us about you, what you'd want to work on, and anything we should know."></textarea>
-        </div>
-
-        <div class="notice" style="margin-bottom:18px;">
-          <strong>Heads up:</strong> Submitting opens your default email client with the application
-          details pre-filled. Please attach your resume file to the email before sending. All applications go to
-          <a href="mailto:support@pureaistudio.com">support@pureaistudio.com</a>.
         </div>
 
         <button class="btn btn-primary" type="submit">Submit application →</button>

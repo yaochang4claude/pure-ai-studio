@@ -46,11 +46,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // File drop + name display
+  // File drop + name display + validation
+  const ALLOWED_RESUME = /\.(pdf|doc|docx)$/i;
+  const MAX_RESUME_BYTES = 3 * 1024 * 1024; // 3 MB
+
   const drop = document.querySelector('.file-drop');
   if (drop) {
     const input = drop.querySelector('input[type=file]');
     const name = drop.querySelector('.file-name');
+
+    const setFile = (file) => {
+      if (!ALLOWED_RESUME.test(file.name)) {
+        name.textContent = '';
+        input.value = '';
+        alert('Please upload a PDF, DOC, or DOCX file.');
+        return;
+      }
+      if (file.size > MAX_RESUME_BYTES) {
+        name.textContent = '';
+        input.value = '';
+        alert('Resume must be 3 MB or smaller.');
+        return;
+      }
+      name.textContent = file.name;
+    };
+
     drop.addEventListener('click', () => input.click());
     drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag'); });
     drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
@@ -59,59 +79,93 @@ document.addEventListener('DOMContentLoaded', () => {
       drop.classList.remove('drag');
       if (e.dataTransfer.files.length) {
         input.files = e.dataTransfer.files;
-        name.textContent = input.files[0].name;
+        setFile(input.files[0]);
       }
     });
     input.addEventListener('change', () => {
-      if (input.files.length) name.textContent = input.files[0].name;
+      if (input.files.length) setFile(input.files[0]);
     });
   }
 
-  // Application form -> mailto with details (resume must be attached manually)
+  // Read a File as base64 (without the "data:...;base64," prefix)
+  const fileToBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(',')[1]);
+    reader.onerror = () => reject(new Error('Could not read the file.'));
+    reader.readAsDataURL(file);
+  });
+
+  // Application form -> POST /api/apply (sends email with resume attached)
   const applyForm = document.querySelector('#apply-form');
   if (applyForm) {
-    applyForm.addEventListener('submit', (e) => {
+    applyForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const fd = new FormData(applyForm);
-      const fullName = fd.get('name') || '';
-      const email = fd.get('email') || '';
-      const phone = fd.get('phone') || '';
-      const position = fd.get('position') || '';
-      const linkedin = fd.get('linkedin') || '';
-      const portfolio = fd.get('portfolio') || '';
-      const coverLetter = fd.get('coverLetter') || '';
-      const fileInput = applyForm.querySelector('input[type=file]');
-      const fileName = fileInput && fileInput.files.length ? fileInput.files[0].name : '(none — please attach in your email)';
-
-      const subject = `Application — ${position} — ${fullName}`;
-      const body =
-`Hello Pure AI Studio team,
-
-I'd like to apply for the following position.
-
-Name: ${fullName}
-Email: ${email}
-Phone: ${phone}
-Position: ${position}
-LinkedIn: ${linkedin}
-Portfolio: ${portfolio}
-Resume file: ${fileName}
-
-Cover letter / message:
-${coverLetter}
-
-(Please attach the resume file "${fileName}" to this email before sending.)
-
-Best regards,
-${fullName}`;
-
-      const mailto = `mailto:support@pureaistudio.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailto;
 
       const banner = document.querySelector('#apply-success');
-      if (banner) {
+      const submitBtn = applyForm.querySelector('button[type=submit]');
+      const fd = new FormData(applyForm);
+      const fileInput = applyForm.querySelector('input[type=file]');
+
+      const showBanner = (msg, isError) => {
+        if (!banner) return;
+        banner.textContent = msg;
         banner.classList.add('show');
+        banner.classList.toggle('error', !!isError);
         banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+
+      // Client-side validation
+      if (!fd.get('name') || !fd.get('email') || !fd.get('position')) {
+        showBanner('Please fill in your name, email, and position.', true);
+        return;
+      }
+      if (!fileInput || !fileInput.files.length) {
+        showBanner('Please attach your resume (PDF, DOC, or DOCX).', true);
+        return;
+      }
+      const file = fileInput.files[0];
+      if (!ALLOWED_RESUME.test(file.name)) {
+        showBanner('Resume must be a PDF, DOC, or DOCX file.', true);
+        return;
+      }
+      if (file.size > MAX_RESUME_BYTES) {
+        showBanner('Resume must be 3 MB or smaller.', true);
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const originalLabel = submitBtn.textContent;
+      submitBtn.textContent = 'Submitting…';
+
+      try {
+        const resumeContent = await fileToBase64(file);
+        const resp = await fetch('/api/apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: fd.get('name'),
+            email: fd.get('email'),
+            phone: fd.get('phone') || '',
+            position: fd.get('position'),
+            linkedin: fd.get('linkedin') || '',
+            portfolio: fd.get('portfolio') || '',
+            coverLetter: fd.get('coverLetter') || '',
+            resumeName: file.name,
+            resumeContent,
+          }),
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+
+        showBanner('Application submitted! Check your inbox for a confirmation email.', false);
+        applyForm.reset();
+        const fileNameEl = document.querySelector('.file-drop .file-name');
+        if (fileNameEl) fileNameEl.textContent = '';
+      } catch (err) {
+        showBanner(err.message || 'Something went wrong. Please try again.', true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
       }
     });
   }

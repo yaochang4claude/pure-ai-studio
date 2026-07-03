@@ -577,6 +577,11 @@ section { padding: 80px 0; position: relative; }
   display: none;
 }
 .success-banner.show { display: block; }
+.success-banner.error {
+  background: rgba(239,68,68,0.10);
+  border-color: rgba(239,68,68,0.35);
+  color: #fecaca;
+}
 
 .fade-in {
   opacity: 0;
